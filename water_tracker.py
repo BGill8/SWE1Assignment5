@@ -73,6 +73,15 @@ def display_progress():
     print("=" * 20)
     print(f"{total_intake}/{DAILY_GOAL}ml")
 
+def display_progress_percent():
+    """Show a percentage progress bar (Heuristic #4)."""
+    with open(LOG_FILE, "r") as f:
+        data = json.load(f)
+
+    total_intake = sum(entry["amount"] for entry in data["history"])
+    percentage = min(100, (total_intake / DAILY_GOAL) * 100)
+    print(f"\n📈 Daily Progress: {percentage:.1f}%")
+
 
 def start_new_day():
     """Start a new day (Heuristic #6)."""
@@ -114,6 +123,7 @@ def main():
         print("\nWater Tracker")
         print("1. Log More Water")
         print("2. View Water Progress")
+        print("22. View Progress as Percentage")
         print("3. Start a New Day")
         print("4. View Weekly Progress")
         print("5. View Effects of Healthy Water Consumption")
@@ -133,6 +143,9 @@ def main():
 
         elif choice == "2":
             display_progress()
+
+        elif choice == "22":
+            display_progress_percent()
 
         elif choice == "3":
             start_new_day()
